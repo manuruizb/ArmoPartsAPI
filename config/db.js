@@ -23,14 +23,14 @@ const sequelize = new Sequelize(
   }
 );
 
-const db = {
-  Areas: areasModel(sequelize),
-  Empleados: employeesModel(sequelize),
-  Usuarios: userModel(sequelize),
-  Autoparte: autopartModel(sequelize),
-  Pedido: orderModel(sequelize),
-  Formulario: formModel(sequelize)
-};
+const db = {};
+
+db.Areas = areasModel(sequelize);
+db.Empleados = employeesModel(sequelize);
+db.Usuarios = userModel(sequelize);
+db.Autoparte = autopartModel(sequelize);
+db.Pedido = orderModel(sequelize);
+db.Formulario = formModel(sequelize);
 
 // sync all models with database
 sequelize.sync({ alter: false });

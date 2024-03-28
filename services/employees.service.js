@@ -85,6 +85,10 @@ const findByNumDoc = async (num_documento) => {
     where:{
       num_documento: num_documento
     },
+    include: [{
+      model: db.Areas,
+      required: false
+    }]
   });
 };
 

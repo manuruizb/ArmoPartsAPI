@@ -13,7 +13,7 @@ function employeesModel(sequelize) {
         primer_apellido: { type: DataTypes.STRING(200), allowNull: false },
         segundo_apellido: { type: DataTypes.STRING(200), allowNull: true },
         tipo_documento: { type: DataTypes.STRING(200), allowNull: false },
-        num_documento: { type: DataTypes.STRING(20), allowNull: false},
+        num_documento: { type: DataTypes.STRING(20), allowNull: false },
         fecha_nacimiento: { type: DataTypes.DATEONLY, allowNull: false },
         direccion: { type: DataTypes.STRING(200), allowNull: false },
         correo_electronico: { type: DataTypes.STRING(200), allowNull: false },
@@ -22,7 +22,7 @@ function employeesModel(sequelize) {
         cargo: { type: DataTypes.STRING(200), allowNull: false },
         id_area: {
             type: DataTypes.UUID,
-            allowNull: true,
+            allowNull: false,
             references: {
                 model: 'Areas',
                 key: 'id_area'
@@ -34,8 +34,12 @@ function employeesModel(sequelize) {
         freezeTableName: true,
         timestamps: false
     };
-    
-    return sequelize.define("Empleados", attributes, options);
+
+    const Empleados = sequelize.define('Empleados', attributes, options);
+
+    Empleados.belongsTo(sequelize.models.Areas, { foreignKey: 'id_area' });
+
+    return Empleados;
 }
 
 module.exports = employeesModel;

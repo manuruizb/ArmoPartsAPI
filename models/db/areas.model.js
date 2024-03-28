@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 function areasModel(sequelize) {
     const attributes = {
         id_area: {
-            type: DataTypes.UUID, 
-            defaultValue: DataTypes.UUIDV4, 
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             allowNull: false,
             primaryKey: true
         },
@@ -16,7 +16,9 @@ function areasModel(sequelize) {
         freezeTableName: true,
         timestamps: false
     };
-    return sequelize.define("Areas", attributes, options);
+    const Areas = sequelize.define("Areas", attributes, options);
+
+    return Areas;
 }
 
 module.exports = areasModel;
