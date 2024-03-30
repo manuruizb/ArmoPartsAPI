@@ -16,6 +16,27 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
+    let docExist = await employeeService.findByNumDoc(req.body.num_documento);
+    if(docExist){
+      return res
+        .status(400)
+        .json(new Result({ statusCode: 400, error: "Ya existe un empleado con este documento." }, false).build());
+    }
+
+    let mailExist = await employeeService.findByEmail(req.body.correo_electronico);
+    if(mailExist){
+      return res
+        .status(400)
+        .json(new Result({ statusCode: 400, error: "Ya existe un empleado con este correo electrónico." }, false).build());
+    }
+
+    let userExist = await userService.findByUser({usuario: req.body.usuario});
+    if(userExist){
+      return res
+        .status(400)
+        .json(new Result({ statusCode: 400, error: "Ya existe un empleado con este nombre de usuario." }, false).build());
+    }
+
     let data = await employeeService.create(req.body);
     await userService.create({
       usuario: req.body.usuario,

@@ -81,7 +81,7 @@ const update = async ({
 };
 
 const findByNumDoc = async (num_documento) => {
-  return await db.Empleados.findAll({
+  return await db.Empleados.findOne({
     where:{
       num_documento: num_documento
     },
@@ -92,10 +92,19 @@ const findByNumDoc = async (num_documento) => {
   });
 };
 
+const findByEmail = async (correo_electronico) => {
+  return await db.Empleados.findOne({
+    where:{
+      correo_electronico: correo_electronico
+    }
+  });
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
-  findByNumDoc
+  findByNumDoc,
+  findByEmail
 };
