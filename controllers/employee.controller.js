@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const employeeService = require("../services/employees.service");
+const userService = require("../services/users.services");
 const Result = require("../models/helpers/result.model");
 
 router.get("/", async (req, res) => {
@@ -16,6 +17,11 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     let data = await employeeService.create(req.body);
+    await userService.create({
+      usuario: req.body.usuario,
+      contrasena: req.body.contrasena,
+      id_empleado: data.id_empleado
+    })
     res.status(201).json(new Result(data, true).build());
   } catch (error) {
     console.log(error);

@@ -22,7 +22,7 @@ function employeesModel(sequelize) {
         cargo: { type: DataTypes.STRING(200), allowNull: false },
         id_area: {
             type: DataTypes.UUID,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'Areas',
                 key: 'id_area'

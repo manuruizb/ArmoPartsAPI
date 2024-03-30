@@ -27,7 +27,7 @@ const db = {};
 
 db.Areas = areasModel(sequelize);
 db.Empleados = employeesModel(sequelize);
-db.Usuarios = userModel(sequelize);
+db.Usuario = userModel(sequelize);
 db.Autoparte = autopartModel(sequelize);
 db.Pedido = orderModel(sequelize);
 db.Formulario = formModel(sequelize);
