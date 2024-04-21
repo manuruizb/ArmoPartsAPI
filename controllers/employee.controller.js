@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const employeeService = require("../services/employees.service");
-const userService = require("../services/users.services");
+const userService = require("../services/users.service");
 const Result = require("../models/helpers/result.model");
 
 router.get("/", async (req, res) => {

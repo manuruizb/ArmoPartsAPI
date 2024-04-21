@@ -64,11 +64,29 @@ const findByUser = async ({ usuario }) => {
             usuario: usuario
         }
     });
+};
+
+const updatePassword = async ({
+    contrasena,
+    id_empleado
+}) => {
+    await db.Usuario.update(
+        {
+            contrasena
+        },
+        {
+            where: {
+                id_empleado: id_empleado,
+            },
+        }
+    );
+    return;
 }
 
 module.exports = {
     findByUserAndPassword,
     create,
     updateStateAndRemainings,
-    findByUser
+    findByUser,
+    updatePassword
 };
