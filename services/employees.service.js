@@ -1,7 +1,30 @@
+const { where } = require("sequelize");
 const db = require("../config/db");
 
-const getAll = async () => {
-  return await db.Empleados.findAll();
+const getAll = async (page, pageSize, searchparam) => {
+
+  const offset = (page - 1) * pageSize;
+  const limit = pageSize;
+  let whereClause = {};
+
+  console.log("Holi:", searchparam)
+  if (searchparam !== '') {
+    whereClause = {
+      num_documento: searchparam
+    };
+  }
+
+  const { rows, count } = await db.Empleados.findAndCountAll({
+    where: whereClause,
+    include: [{
+      model: db.Areas,
+      required: false
+    }],
+    offset: Number(offset),
+    limit: Number(limit)
+  });
+
+  return { rows, count };
 };
 
 const findById = async (id) => {
@@ -58,7 +81,8 @@ const update = async ({
   id_area
 }) => {
   await db.Empleados.update(
-    { primer_nombre,
+    {
+      primer_nombre,
       segundo_nombre,
       primer_apellido,
       segundo_apellido,
@@ -70,19 +94,20 @@ const update = async ({
       celular,
       genero,
       cargo,
-      id_area},
-      {
-        where: {
-          id_empleado: id_empleado,
-        },
-      }
-      );
-      return "Usuario actualizado con éxito.";
+      id_area
+    },
+    {
+      where: {
+        id_empleado: id_empleado,
+      },
+    }
+  );
+  return "Usuario actualizado con éxito.";
 };
 
 const findByNumDoc = async (num_documento) => {
   return await db.Empleados.findOne({
-    where:{
+    where: {
       num_documento: num_documento
     },
     include: [{
@@ -94,7 +119,7 @@ const findByNumDoc = async (num_documento) => {
 
 const findByEmail = async (correo_electronico) => {
   return await db.Empleados.findOne({
-    where:{
+    where: {
       correo_electronico: correo_electronico
     }
   });

@@ -6,7 +6,13 @@ const Result = require("../models/helpers/result.model");
 
 router.get("/", async (req, res) => {
   try {
-    let data = await employeeService.getAll();
+    console.log("Parax",req.query.searchparam)
+    let data = await employeeService
+      .getAll(
+        req.query.page,
+        req.query.pagesize,
+        req.query.searchparam
+      );
     res.json(new Result(data, true).build());
   } catch (error) {
     console.log(error);
@@ -17,21 +23,21 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     let docExist = await employeeService.findByNumDoc(req.body.num_documento);
-    if(docExist){
+    if (docExist) {
       return res
         .status(400)
         .json(new Result({ statusCode: 400, error: "Ya existe un empleado con este documento." }, false).build());
     }
 
     let mailExist = await employeeService.findByEmail(req.body.correo_electronico);
-    if(mailExist){
+    if (mailExist) {
       return res
         .status(400)
         .json(new Result({ statusCode: 400, error: "Ya existe un empleado con este correo electrónico." }, false).build());
     }
 
-    let userExist = await userService.findByUser({usuario: req.body.usuario});
-    if(userExist){
+    let userExist = await userService.findByUser({ usuario: req.body.usuario });
+    if (userExist) {
       return res
         .status(400)
         .json(new Result({ statusCode: 400, error: "Ya existe un empleado con este nombre de usuario." }, false).build());
@@ -68,12 +74,12 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    let exist  = await employeeService.findById(req.params.id);
-    if(!exist){
-      return res.status(404).json(new Result({statusCode: 404, error: "Empleado no existe."}));
+    let exist = await employeeService.findById(req.params.id);
+    if (!exist) {
+      return res.status(404).json(new Result({ statusCode: 404, error: "Empleado no existe." }));
     }
     let update = await employeeService.update(req.body);
-    return res.json(new Result(update, true).build());  
+    return res.json(new Result('Empleado actualizado con éxito.', true).build());
   } catch (error) {
     return res
       .statusCode(500)
@@ -81,9 +87,9 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.get("/getByDocument/:numDocument", async (req, res) => {
+router.get("/getUserByEmployeeId/:idEmpleado", async (req, res) => {
   try {
-    let data = await employeeService.findByNumDoc(req.params.numDocument);
+    let data = await userService.findByEmployeeId(req.params.idEmpleado);
     if (!data || data.length === 0) {
       return res
         .status(404)

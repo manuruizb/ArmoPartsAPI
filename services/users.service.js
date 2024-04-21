@@ -66,6 +66,31 @@ const findByUser = async ({ usuario }) => {
     });
 };
 
+const findByEmployeeId = async (id_empleado) => {
+    return await db.Usuario.findOne({
+        where: {
+            id_empleado: id_empleado
+        },
+        include: [{
+            model: db.Empleados,
+            required: true,
+            include: [
+                {
+                    model: db.Areas,
+                    required: false
+                }
+            ]
+        },
+       ],
+        attributes: [
+            "usuario",
+            "reintentos",
+            "estado",
+            "id_usuario"
+        ]
+    });
+};
+
 const updatePassword = async ({
     contrasena,
     id_empleado
@@ -88,5 +113,6 @@ module.exports = {
     create,
     updateStateAndRemainings,
     findByUser,
-    updatePassword
+    updatePassword,
+    findByEmployeeId
 };
