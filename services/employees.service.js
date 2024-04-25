@@ -7,7 +7,9 @@ const getAll = async (page, pageSize, searchparam) => {
   const limit = pageSize;
   let whereClause = {};
 
-  console.log("Holi:", searchparam)
+  console.log("searchparam:", searchparam)
+  console.log("page:", page)
+  console.log("pageSize:", pageSize)
   if (searchparam !== '') {
     whereClause = {
       num_documento: searchparam

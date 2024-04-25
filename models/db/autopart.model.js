@@ -15,7 +15,9 @@ function autopartModel(sequelize) {
         freezeTableName: true,
         timestamps: false
     };
-    return sequelize.define("Autoparte", attributes, options);
+    const Autoparte =  sequelize.define("Autoparte", attributes, options);
+
+    return Autoparte;
 }
 
 module.exports = autopartModel;

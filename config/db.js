@@ -20,6 +20,10 @@ const sequelize = new Sequelize(
     dialectOptions: {
       options: { encrypt: false },
     },
+    timezone: '-05:00',
+    dialectOptions: {
+      useUTC: true, // -->Add this line. for reading from database
+    },
   }
 );
 
@@ -31,6 +35,7 @@ db.Usuario = userModel(sequelize);
 db.Autoparte = autopartModel(sequelize);
 db.Pedido = orderModel(sequelize);
 db.Formulario = formModel(sequelize);
+
 
 // sync all models with database
 sequelize.sync({ alter: false });

@@ -16,8 +16,12 @@ function orderModel(sequelize) {
                 key: 'id_empleado'
             }
         },
-        fecha_pedido: { type: DataTypes.DATE, allowNull: false },
-        num_pedido: { type: DataTypes.INTEGER, allowNull: false },
+        fecha_pedido: {
+            type: DataTypes.DATE,
+            allowNull: false, defaultValue:
+                DataTypes.NOW,
+        },
+        num_pedido: { type: DataTypes.INTEGER, allowNull: true },
         id_autoparte: {
             type: DataTypes.UUID,
             allowNull: false,
@@ -27,14 +31,21 @@ function orderModel(sequelize) {
             }
         },
         cantidad: { type: DataTypes.INTEGER, allowNull: false },
-        estado: { type: DataTypes.BOOLEAN, allowNull: false }
+        estado: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true }
     };
 
     const options = {
         freezeTableName: true,
         timestamps: false
     };
-    return sequelize.define("Pedido", attributes, options);
+
+    const Pedido = sequelize.define('Pedido', attributes, options);
+
+    Pedido.belongsTo(sequelize.models.Autoparte, { foreignKey: 'id_autoparte' });
+    Pedido.belongsTo(sequelize.models.Empleados, { foreignKey: 'id_empleado' });
+    
+    return Pedido;
+
 }
 
 module.exports = orderModel;

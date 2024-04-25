@@ -32,7 +32,14 @@ function formModel(sequelize) {
         freezeTableName: true,
         timestamps: false
     };
-    return sequelize.define("Formulario", attributes, options);
+
+
+    const Formulario = sequelize.define('Formulario', attributes, options);
+
+    Formulario.belongsTo(sequelize.models.Pedido, { foreignKey: 'id_pedido' });
+
+    return Formulario;
+
 }
 
 module.exports = formModel;

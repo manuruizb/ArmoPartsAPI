@@ -6,7 +6,7 @@ const Result = require("../models/helpers/result.model");
 
 router.get("/", async (req, res) => {
   try {
-    console.log("Parax",req.query.searchparam)
+    
     let data = await employeeService
       .getAll(
         req.query.page,
