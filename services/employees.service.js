@@ -29,8 +29,16 @@ const getAll = async (page, pageSize, searchparam) => {
   return { rows, count };
 };
 
-const findById = async (id) => {
-  return await db.Empleados.findByPk(id);
+const findById = async (id_empleado) => {
+  return await db.Empleados.findOne({
+    where: {
+      id_empleado: id_empleado
+    },
+    include: [{
+      model: db.Areas,
+      required: false
+    }]
+  });
 };
 
 const create = async ({

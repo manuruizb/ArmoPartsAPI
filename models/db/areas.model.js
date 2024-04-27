@@ -9,7 +9,8 @@ function areasModel(sequelize) {
             primaryKey: true
         },
         area: { type: DataTypes.STRING(200), allowNull: false },
-        orden: { type: DataTypes.INTEGER, allowNull: false }
+        orden: { type: DataTypes.INTEGER, allowNull: false },
+        icon_class: { type: DataTypes.STRING(200), allowNull: false }
     };
 
     const options = {

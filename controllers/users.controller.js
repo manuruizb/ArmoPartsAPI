@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const usersService = require("../services/users.service");
 const Result = require("../models/helpers/result.model");
@@ -32,7 +33,20 @@ router.post("/auth", async (req, res) => {
             return res.status(404).json(new Result({ statusCode: 404, error: "Contraseña incorrecta." }, false).build());
         }
 
-        return res.json(new Result(data, true).build());
+        await usersService.updateStateAndRemainings({
+            id_usuario: userexist.id_usuario,
+            reintentos: 0,
+            estado: userexist.estado
+        })
+
+        const token = jwt.sign({username : userexist.usuario}, process.env.SECRET, { expiresIn: process.env.EXPIRATION })
+
+        const result = {
+            ...data.dataValues,
+            token
+        }
+
+        return res.json(new Result(result, true).build());
     } catch (error) {
         console.log(error);
         res.status(500).json(new Result({ statusCode: 500, error: "Algo salió mal." }, false, error).build());

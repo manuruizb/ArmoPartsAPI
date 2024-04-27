@@ -28,7 +28,10 @@ const findByOrderId = async (id_pedido) => {
     return await db.Formulario.findAll({
         where: {
             id_pedido: id_pedido
-        }
+        }, include: [{
+            model: db.Empleados,
+            required: false
+        }],
     });
 };
 

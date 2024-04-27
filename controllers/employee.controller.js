@@ -3,10 +3,11 @@ const router = express.Router();
 const employeeService = require("../services/employees.service");
 const userService = require("../services/users.service");
 const Result = require("../models/helpers/result.model");
+const verifyToken = require("../middlewares/middleware-token");
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
   try {
-    
+
     let data = await employeeService
       .getAll(
         req.query.page,
@@ -20,7 +21,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
   try {
     let docExist = await employeeService.findByNumDoc(req.body.num_documento);
     if (docExist) {
@@ -56,7 +57,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
   try {
     let data = await employeeService.findById(req.params.id);
     if (!data) {
@@ -72,7 +73,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyToken, async (req, res) => {
   try {
     let exist = await employeeService.findById(req.params.id);
     if (!exist) {
@@ -87,7 +88,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.get("/getUserByEmployeeId/:idEmpleado", async (req, res) => {
+router.get("/getUserByEmployeeId/:idEmpleado", verifyToken, async (req, res) => {
   try {
     let data = await userService.findByEmployeeId(req.params.idEmpleado);
     if (!data || data.length === 0) {

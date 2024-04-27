@@ -3,8 +3,9 @@ const router = express.Router();
 const ordersService = require("../services/orders.service");
 const formService = require("../services/form.service");
 const Result = require("../models/helpers/result.model");
+const verifyToken = require("../middlewares/middleware-token");
 
-router.post("/", async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
   try {
 
     let data = await ordersService.create(req.body);
@@ -16,7 +17,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
   try {
 
     let data = await ordersService
@@ -36,10 +37,6 @@ router.get("/", async (req, res) => {
 
     data.rows = xd;
     console.log(xd)
-
-    //data.rows = xd;
-
-    //formularios: 'await formService.findByOrderId(x.id_pedido)'
 
     res.json(new Result(data, true).build());
   } catch (error) {

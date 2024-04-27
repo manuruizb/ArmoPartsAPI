@@ -37,6 +37,7 @@ function formModel(sequelize) {
     const Formulario = sequelize.define('Formulario', attributes, options);
 
     Formulario.belongsTo(sequelize.models.Pedido, { foreignKey: 'id_pedido' });
+    Formulario.belongsTo(sequelize.models.Empleados, { foreignKey: 'id_empleado' });
 
     return Formulario;
 
