@@ -21,7 +21,7 @@ router.get("/", verifyToken, async (req, res) => {
   }
 });
 
-router.post("/", verifyToken, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     let docExist = await employeeService.findByNumDoc(req.body.num_documento);
     if (docExist) {
